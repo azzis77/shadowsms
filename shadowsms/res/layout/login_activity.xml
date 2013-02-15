@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@layout/header_gradient">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:height="100dip"
+        android:text="ShadowSMS"
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:textColor="#FFA54F" 
+        android:gravity="top|center_horizontal" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:height="50dip"
+        android:text="Password"
+        android:gravity="top|center_horizontal"
+        android:textColor="@android:color/background_light" />
+    
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:width="300dip"
+        android:gravity="top|center_horizontal" 
+        android:inputType="textPassword" 
+        android:background="@android:drawable/editbox_background" />
+
+    <Button
+        android:id="@+id/Login"
+        android:layout_width="fill_parent"
+        android:layout_height="22dp"
+        android:layout_margin="90dip"
+        android:background="@android:color/holo_orange_light"
+        android:gravity="top|center_horizontal"
+        android:height="10dip"
+        android:text="Accedi"
+        android:width="120dip" />
+    
+</LinearLayout>

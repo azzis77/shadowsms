@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ShadowSMS</string>
+    <string name="bnt_label1">Aggiorna lista SMS</string>
+    <string name="btn_back">Ritorna</string>
+    <string name="btn_save">Salva</string>
+
+</resources>

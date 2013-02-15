@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="Impostazioni applicativo">
+	 	<CheckBoxPreference
+        	android:title="Avvia all'accensione"
+            android:defaultValue="false"
+            android:summary="Avvia applicazione all'accensione del dispositivo"
+            android:key="checkboxLanuch" />
+	 	<ListPreference
+            android:title="Tipo ricezione SMS"
+            android:key="listTypeSMS"
+            android:entries="@array/tipoRicezioneSMS"
+            android:entryValues="@array/tipoRicezioneSMSValue"
+            android:defaultValue="normale" />
+	   <CheckBoxPreference
+        	android:title="Avvio protetto da password"
+            android:defaultValue="false"
+            android:summary="Controlla password all'avvio"
+            android:key="checkPwdApplication" />
+		<CheckBoxPreference
+        	android:title="Show Status Bar"
+            android:defaultValue="true"
+            android:summary="Mostra icona nella barra dello stato"
+            android:key="showIcons" />
+	</PreferenceCategory>
+  	<PreferenceCategory android:title="Password">  
+	    <EditTextPreference 
+			android:summary="Password crypt messaggi"
+			android:key="PWDSMS" 
+			android:title="Password crypt SMS"
+			android:defaultValue="encryptiko">
+		</EditTextPreference>
+	    <EditTextPreference 
+			android:summary="Password avvio applicazione"
+			android:key="PWDAPP" 
+			android:title="Password applicazione"
+			android:defaultValue="encryptiko">
+		</EditTextPreference>
+     </PreferenceCategory>
+    <PreferenceCategory android:title="BlackList">
+		<Preference android:id="@+id/blacklist"  
+		            android:key="blacklist"
+		    		android:title="Gestione BlackList " 
+		            android:summary="Gestione numeri BlackList" 
+		            android:selectable="true" />	 
+    </PreferenceCategory>          
+  	<PreferenceCategory
+             android:title="Impostazione messaggi ghost">
+	    <EditTextPreference 
+			android:summary="Numero mittente"
+			android:key="NRMMITT" 
+			android:title="Numero telefonico mittente">
+		</EditTextPreference>
+	    <EditTextPreference 
+			android:summary="Corpo sms mittente"
+			android:key="SMSMITT" 
+			android:title="Testo SMS mittente">
+		</EditTextPreference>
+	    <EditTextPreference 
+			android:summary="Path log applicativo"
+			android:key="PathLog" 
+			android:title="Path log applicativo">
+		</EditTextPreference>
+     </PreferenceCategory>
+</PreferenceScreen>

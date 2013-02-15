@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string-array name="updateInterval">  
+         <item name="1000">Every 1 second</item>  
+         <item name="5000">Every 5 seconds</item>  
+         <item name="30000">Every 30 seconds</item>  
+         <item name="60000">Every 1 minute</item>  
+         <item name="300000">Every 5 minutes</item>  
+     </string-array>  
+
+     <string-array name="updateIntervalValues">  
+         <item name="1000">1000</item>  
+         <item name="5000">5000</item>  
+         <item name="30000">30000</item>  
+         <item name="60000">60000</item>  
+         <item name="300000">300000</item>  
+     </string-array>
+     
+     <string-array name="smsMenu">  
+         <item name="delete">Cancella</item>  
+         <item name="send">Rispondi</item>  
+     </string-array>  
+     
+     <string-array name="tipoRicezioneSMS">
+        <item>Invia finto SMS</item>
+        <item>Silenzioso</item>
+        <item>Normale</item>
+     </string-array>
+
+    <string-array name="tipoRicezioneSMSValue">
+        <item>dummy</item>
+        <item>silente</item>
+        <item>normale</item>
+    </string-array>
+    
+</resources>

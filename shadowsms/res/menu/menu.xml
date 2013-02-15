@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">    
+    
+    <item android:id="@+id/mnu_exit"         
+          android:icon="@drawable/ic_exit2"         
+          android:title="Uscita" /> 
+    
+    <item android:id="@+id/mnu_settings"         
+          android:icon="@drawable/ic_settings_clipart"         
+          android:title="Settings" /> 
+</menu>

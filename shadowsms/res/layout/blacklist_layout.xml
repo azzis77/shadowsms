@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		      android:layout_width="match_parent"
+		      android:layout_height="match_parent"
+		      android:orientation="vertical"
+		      android:background="@layout/header_gradient" >
+
+	<LinearLayout  
+				  android:id="@+id/buttonlayout" 
+				  android:orientation="horizontal" 
+				  android:layout_width="fill_parent" 
+				  android:layout_height="wrap_content" 
+				  android:height="32dp" 
+				  android:gravity="left|top" 
+				  android:background="#2B60DE" 
+				  android:paddingTop="2dp" 
+				  android:paddingBottom="2dp">
+	
+		<LinearLayout android:id="@+id/buttonlayout2" 
+	  			      android:orientation="horizontal" 
+				      android:layout_height="wrap_content" 
+				      android:gravity="left|center_vertical" 
+				      android:layout_gravity="left" 
+				      android:layout_width="wrap_content">
+	            
+	            <TextView android:id="@+id/txtTest" 
+	                android:layout_width="fill_parent" 
+	                android:layout_height="fill_parent" 
+	                android:textStyle="bold" 
+	                android:textColor="#FFFFFF" 
+	                android:text="@string/app_name" 
+	                android:textSize="15sp" 
+	                android:gravity="center_vertical" 
+	                android:paddingLeft="5dp" />
+	    </LinearLayout>
+	    
+		<LinearLayout android:id="@+id/buttonlayout2" 
+				      android:orientation="horizontal" 
+				      android:layout_height="wrap_content" 
+				      android:gravity="right" 
+				      android:layout_gravity="right" 
+				      android:layout_width="fill_parent">
+		</LinearLayout>
+	
+	</LinearLayout>
+	
+	<TableLayout android:id="@+id/TableLayout01" 
+	    		 android:layout_width="fill_parent" 
+	             android:layout_height="fill_parent" 
+	             android:stretchColumns="*" >
+		
+		<TableRow android:layout_width="wrap_content" 
+		          android:layout_height="wrap_content" 
+		          android:paddingTop="50dp">
+	
+		    <Button android:id="@+id/btnSimple" 
+			        android:layout_width="wrap_content" 
+			        android:layout_height="wrap_content" 
+			        android:text="Simple ListView" 
+			        android:textSize="25sp" 
+			        android:layout_marginLeft="10px" 
+			        android:layout_marginRight="10px" 
+			        android:layout_marginBottom="5px" 
+			        android:layout_marginTop="5px" 
+			        android:height="50dp" 
+			        android:width="50dp">
+		    </Button>
+
+		</TableRow>
+	
+		<TableRow android:layout_width="wrap_content" 
+		    	  android:layout_height="wrap_content" 
+		          android:paddingTop="50dp">
+		</TableRow>
+	
+	</TableLayout>
+
+</LinearLayout>
