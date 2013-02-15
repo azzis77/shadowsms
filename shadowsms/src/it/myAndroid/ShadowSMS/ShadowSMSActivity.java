@@ -251,29 +251,30 @@ public class ShadowSMSActivity extends Activity
 		
 		
 //  Visualizzo notifica nella barra
-		@SuppressWarnings("deprecation")
 		private void showNotification(Context ctx, int notifyID) 
 	  {
-			
-			 String ns = Context.NOTIFICATION_SERVICE; 
-			 CharSequence text = getText(R.string.app_name);
-	  	 Notification notification = new Notification(R.drawable.ic_launcher, text, System.currentTimeMillis());
-	  	 PendingIntent contentIntent = existNotification(R.string.app_name);
-	  	 //PendingIntent contentIntent = PendingIntent.getActivity(this, 0,new Intent(this, ShadowSMSActivity.class), 0);
-	     notification.setLatestEventInfo(this, getText(R.string.app_name),text, contentIntent);
-	     // setto la notifica come non cancellabile
-	     notification.flags = notification.FLAG_NO_CLEAR;
-	     NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
-	     nMgr.notify(R.string.app_name, notification);
-	 	}
+		  Notification.Builder builder = new Notification.Builder(ctx)  
+		       .setSmallIcon(R.drawable.ic_launcher)  
+		       .setContentTitle(getText(R.string.app_name))
+		       .setContentText(getText(R.string.app_name));
+		  
+			Intent notificationIntent = new Intent(ctx, ShadowSMSActivity.class);  
+			PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+			builder.setContentIntent(contentIntent);
+
+		  // Add as notification  
+	  	NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);  
+		  final Notification notification = builder.build();
+	    notification.flags = Notification.FLAG_NO_CLEAR;
+	    notification.defaults = Notification.DEFAULT_LIGHTS;
+		  manager.notify(notifyID, notification);
+	  }
 
 //  Cancello notifica nella barra
-  	@SuppressWarnings("deprecation")
 		public void CancelNotification(Context ctx, int notifyID) 
 		{
-			String ns = Context.NOTIFICATION_SERVICE;
-	    NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
-	    nMgr.cancel(notifyID);
+			NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);  
+			manager.cancel(notifyID);  			
 	  }
 		
 		@Override
