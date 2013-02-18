@@ -82,7 +82,6 @@ public class ShadowSMSActivity extends Activity
     private View LoginFormLayout;
   	private SharedPreferences preferences;
   	private Utils clUtils;
-  	private ExceptionHandler EncryptEx;
   	private static ShadowSMSDBHelper db;
   	private ListView mListView;
   	private String smsMessage;
@@ -105,12 +104,12 @@ public class ShadowSMSActivity extends Activity
     public void onCreate(Bundle savedInstanceState)  
     {
     	super.onCreate(savedInstanceState);
-      try
-      {
 
-       	setContentView(R.layout.main);
-       	
-  			intentFilter=new IntentFilter();
+    		Thread.setDefaultUncaughtExceptionHandler(new ShadowsmsExceptionHandler(ShadowSMSActivity.this));
+    	 
+    	  setContentView(R.layout.main);
+      
+       	intentFilter=new IntentFilter();
   			intentFilter.addAction("SMS_RECEIVED_ACTION");
   			
       	db = new ShadowSMSDBHelper(this);
@@ -132,12 +131,10 @@ public class ShadowSMSActivity extends Activity
        		editor.putString("PathLog", strLogPath); 
        		editor.commit(); 
        	}
-        // classe Exception su file
-       	EncryptEx = new ExceptionHandler(this);
        	
        	mListView = (ListView)findViewById(R.id.listView);
        	
-       	db.open();
+//     	db.open();
        	smsList = db.getAllSms();
        	db.close();
        	mySmsAdapter = new SMSListAdapter(this, smsList);
@@ -169,11 +166,6 @@ public class ShadowSMSActivity extends Activity
        	{
        		startActivity(new Intent(getApplicationContext(), ShadowSMSLogin.class));
        	}
-      }
-      catch ( Exception e)
-      {
-      	EncryptEx.uncaughtException(new Thread(), e);
-      }
     }
     
     protected void onLongListItemClick(View v, int pos2, long id2) 

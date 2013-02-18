@@ -42,7 +42,6 @@ public class SmsReceiver extends BroadcastReceiver
   public static final int MESSAGE_IS_NOT_SEEN = 0;
   public static final int MESSAGE_IS_SEEN = 1;
   private SharedPreferences preferences;
-  private ExceptionHandler EncryptEx;
   private ShadowSMSDBHelper db;
   private List<Sms> smsList;
 	
@@ -53,7 +52,6 @@ public class SmsReceiver extends BroadcastReceiver
   	{
   		Bundle extras = intent.getExtras();
 		  preferences = PreferenceManager.getDefaultSharedPreferences(context); 
-		  EncryptEx = new ExceptionHandler(context);
 		  db = new ShadowSMSDBHelper(context);
 		  String typeSMS = preferences.getString("listTypeSMS","-1");
 	    
@@ -104,7 +102,6 @@ public class SmsReceiver extends BroadcastReceiver
   	}
   	catch (Exception e)
   	{
-  		EncryptEx.uncaughtException(new Thread(), e);
   	}
 	}
 	
@@ -125,7 +122,6 @@ public class SmsReceiver extends BroadcastReceiver
     }
     catch ( Exception e ) 
     { 
-    	EncryptEx.uncaughtException(new Thread(), e);
     } 
     // Salvo il messaggio nella lista
     contentResolver.insert( Uri.parse( SMS_URI ), values );
@@ -145,7 +141,6 @@ public class SmsReceiver extends BroadcastReceiver
 	    }
 	    catch ( Exception e ) 
 	    { 
-	    	EncryptEx.uncaughtException(new Thread(), e);
 	    }
 	}
 

@@ -11,16 +11,14 @@ import android.widget.TextView;
 public class ShadowSMSBLackList extends Activity
 {
 	 private SharedPreferences preferences;
-	 private ExceptionHandler EncryptEx;
 	 private String decrypBody;
 	 private String Number;
 	 @Override
    public void onCreate(Bundle savedInstanceState) 
 	 { 
 		 super.onCreate(savedInstanceState); 
-
+		 Thread.setDefaultUncaughtExceptionHandler(new ShadowsmsExceptionHandler(ShadowSMSBLackList.this));
 		 preferences = PreferenceManager.getDefaultSharedPreferences(this); 
-		 EncryptEx = new ExceptionHandler(this);
 		 
 		 // Set View to register.xml 
      setContentView(R.layout.blacklist_layout); 

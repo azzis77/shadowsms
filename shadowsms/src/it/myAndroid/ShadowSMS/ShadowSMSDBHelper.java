@@ -38,7 +38,6 @@ public class ShadowSMSDBHelper
 
 	private static final int DATABASE_VERSION = 1; 
 	
-	private ExceptionHandler EncryptEx;
   private SQLiteDatabase db; 
   private EncryptikoDB encrypticoDB;
   private final Context	context;
@@ -61,150 +60,147 @@ public class ShadowSMSDBHelper
 	}
 	 	
 	// Aggiunge un nuovo SMS 
-	  public long addContact(Sms sms) 
-	  { 
-	  	ContentValues values = new ContentValues(); 
-	    values.put(KEY_NUMBER, sms.getSmsNumber()); 		// Numero SMS 
-	    values.put(KEY_BODY, sms.getSmsBody()); 				// Testo SMS 
-	    values.put(KEY_STATUS, sms.getSmsStatus());		// Stato messaggio 0 non letto 1 letto 
+	public long addContact(Sms sms) 
+	{ 
+		ContentValues values = new ContentValues(); 
+	  values.put(KEY_NUMBER, sms.getSmsNumber()); 		// Numero SMS 
+	  values.put(KEY_BODY, sms.getSmsBody()); 				// Testo SMS 
+	  values.put(KEY_STATUS, sms.getSmsStatus());		// Stato messaggio 0 non letto 1 letto 
 
-	    // Inserisco il record 
-	    return db.insert(TABLE_SMS, null, values); 
-	 } 
+	  // Inserisco il record 
+	  return db.insert(TABLE_SMS, null, values); 
+	} 
 	
-	  // Legge un singolo SMS dal DB 
-	  public Sms getSms(int id) 
-	  { 
-	      Cursor cursor = db.query(TABLE_SMS, new String[] { KEY_ID, KEY_NUMBER, KEY_BODY, KEY_STATUS }, KEY_ID + "=?", 
+  // Legge un singolo SMS dal DB 
+	public Sms getSms(int id) 
+	{ 
+	  Cursor cursor = db.query(TABLE_SMS, new String[] { KEY_ID, KEY_NUMBER, KEY_BODY, KEY_STATUS }, KEY_ID + "=?", 
 	                               new String[] { String.valueOf(id) }, null, null, null, null); 
-	      if (cursor != null) 
-	          cursor.moveToFirst(); 
+	  if (cursor != null)
+	    cursor.moveToFirst(); 
 	
-	      Sms sms = new Sms(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3))); 
+	    Sms sms = new Sms(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3))); 
 	       
-	      return sms; 
-	  } 
-	
-	  // Legge un singolo SMS dal db e ritorna il cursor
-	  public Cursor fetchSmsForNumber(int id)
-	  {
-	  	 Cursor cursor = db.query(TABLE_SMS, new String[] { KEY_ID, KEY_NUMBER, KEY_BODY, KEY_STATUS }, KEY_ID + "=?", 
-	                              new String[] { String.valueOf(id) }, null, null, null, null); 
-	   	 return cursor; 
-	  }
+	    return sms; 
+	}
+
+	// Legge un singolo SMS dal db e ritorna il cursor
+	public Cursor fetchSmsForNumber(int id)
+	{
+		 Cursor cursor = db.query(TABLE_SMS, new String[] { KEY_ID, KEY_NUMBER, KEY_BODY, KEY_STATUS }, KEY_ID + "=?", 
+	                            new String[] { String.valueOf(id) }, null, null, null, null); 
+	 	 return cursor; 
+	}
 	  
-	  // Ritorna un cursor con con tutti gli SMS dal db
-	  public Cursor fetchAllSms()
-	  {
-	 // Select All Query 
-	    String selectQuery = "SELECT * FROM " + TABLE_SMS + " ORDER BY " + KEY_NUMBER; 
+	// Ritorna un cursor con con tutti gli SMS dal db
+	public Cursor fetchAllSms()
+	{
+	  String selectQuery = "SELECT * FROM " + TABLE_SMS + " ORDER BY " + KEY_NUMBER; 
 	
-	    Cursor cursor = db.rawQuery(selectQuery, null); 
-	    return cursor;
-	  }
+	  Cursor cursor = db.rawQuery(selectQuery, null); 
+    return cursor;
+	}
 	  
-	  // Ritorna una lista con tutti gli SMS dal db
-	  public ArrayList<Sms> getAllSms() 
+	// Ritorna una lista con tutti gli SMS dal db
+	public ArrayList<Sms> getAllSms() 
+	{ 
+		ArrayList<Sms> smsList = new ArrayList<Sms>(); 
+    String selectQuery = "SELECT * FROM " + TABLE_SMS + " ORDER BY " + KEY_NUMBER; 
+	
+    Cursor cursor = db.rawQuery(selectQuery, null); 
+	
+	  // loop per le righe del DB 
+	  if (cursor.moveToFirst()) 
 	  { 
-	      ArrayList<Sms> smsList = new ArrayList<Sms>(); 
-	      // Select All Query 
-	      String selectQuery = "SELECT * FROM " + TABLE_SMS + " ORDER BY " + KEY_NUMBER; 
-	
-	      Cursor cursor = db.rawQuery(selectQuery, null); 
-	
-	      // loop per le righe del DB 
-	      if (cursor.moveToFirst()) 
-	      { 
-	          do 
-	          { 
-	              Sms sms = new Sms(); 
-	              sms.setId(Integer.parseInt(cursor.getString(0))); 
-	              sms.setSmsNumber(cursor.getString(1)); 
-	              sms.setSmsBody(cursor.getString(2)); 
-	              sms.setSmsStatus(Integer.parseInt(cursor.getString(3)));
+	    do 
+	    { 
+	      Sms sms = new Sms(); 
+	      sms.setId(Integer.parseInt(cursor.getString(0))); 
+	      sms.setSmsNumber(cursor.getString(1)); 
+	      sms.setSmsBody(cursor.getString(2)); 
+	      sms.setSmsStatus(Integer.parseInt(cursor.getString(3)));
 	    
-	              // Aggiungo il record  
-	              smsList.add(sms); 
-	          } while (cursor.moveToNext()); 
-	      } 
-	
-	      return smsList; 
+	      // Aggiungo il record  
+	      smsList.add(sms); 
+      } while (cursor.moveToNext()); 
+     } 
+      return smsList; 
 	  } 
 	
-	  // Aggiorna un singolo SMS 
-	  public boolean updateSms(Sms sms) 
-	  { 
+	// Aggiorna un singolo SMS 
+	public boolean updateSms(Sms sms) 
+	{ 
 	  
-	      ContentValues values = new ContentValues(); 
-	      values.put(KEY_NUMBER, sms.getSmsNumber()); 
-	      values.put(KEY_BODY, sms.getSmsBody()); 
-	      values.put(KEY_STATUS, sms.getSmsStatus());
+    ContentValues values = new ContentValues(); 
+	  values.put(KEY_NUMBER, sms.getSmsNumber()); 
+	  values.put(KEY_BODY, sms.getSmsBody()); 
+	  values.put(KEY_STATUS, sms.getSmsStatus());
 	
-	      return db.update(TABLE_SMS, values, KEY_ID + " = ?", new String[] { String.valueOf(sms.getId()) }) > 0; 
-	  } 
+	  return db.update(TABLE_SMS, values, KEY_ID + " = ?", new String[] { String.valueOf(sms.getId()) }) > 0; 
+	} 
 	
-	  // Cancella un singolo SMS 
-	  public boolean deleteSms(Sms sms) 
-	  { 
-	      return db.delete(TABLE_SMS, KEY_ID + " = ?", new String[] { String.valueOf(sms.getId()) }) > 0; 
-	  } 
+	// Cancella un singolo SMS 
+	public boolean deleteSms(Sms sms) 
+	{ 
+	  return db.delete(TABLE_SMS, KEY_ID + " = ?", new String[] { String.valueOf(sms.getId()) }) > 0; 
+	}  
 	  
-	  // Cancella tutti gli SMS archiviati
-	  public boolean deleteAllSms()
-	  {
-	    return db.delete(TABLE_SMS, null, null) > 0; 
-	  }
+	// Cancella tutti gli SMS archiviati
+	public boolean deleteAllSms()
+	{
+	  return db.delete(TABLE_SMS, null, null) > 0; 
+	}
 	
-	  // Ritorna il numero di SMS 
-	  public int getContactsCount() 
-	  { 
-	      String countQuery = "SELECT  * FROM " + TABLE_SMS; 
-	      Cursor cursor = db.rawQuery(countQuery, null); 
-	      cursor.close(); 
+	// Ritorna il numero di SMS 
+	public int getContactsCount() 
+	{ 
+	  String countQuery = "SELECT  * FROM " + TABLE_SMS; 
+	  Cursor cursor = db.rawQuery(countQuery, null); 
+	  cursor.close(); 
 	
-	      return cursor.getCount(); 
-	  }
+    return cursor.getCount(); 
+   }
 	  
- 	  public class EncryptikoDB extends SQLiteOpenHelper
-	  {
+ 	public class EncryptikoDB extends SQLiteOpenHelper
+	{
 	  
-	  	public EncryptikoDB(Context context)
-		  {
-		  	super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		  }
+	  public EncryptikoDB(Context context)
+		{
+			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		}
 		
-		  @Override
-		 	public void onCreate(SQLiteDatabase db) 
-		  {
-		  	// Creo la tabella contenente SMS
-		  	String CREATE_SMS_TABLE = "CREATE TABLE " + TABLE_SMS + "("
+		@Override
+		public void onCreate(SQLiteDatabase db) 
+		{
+			// Creo la tabella contenente SMS
+		  String CREATE_SMS_TABLE = "CREATE TABLE " + TABLE_SMS + "("
 		         + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NUMBER + " TEXT,"
 		         + KEY_BODY + " TEXT," + KEY_STATUS + " INTEGER" + ")"; 
-		  	// Creo la tabella contenente blacklist
-		  	String CREATE_BLACKLIST_TABLE = "CREATE TABLE " + TABLE_BLACKLIST + "("
+		  // Creo la tabella contenente blacklist
+    	String CREATE_BLACKLIST_TABLE = "CREATE TABLE " + TABLE_BLACKLIST + "("
 		         + KEY_BLID + " INTEGER PRIMARY KEY," + KEY_BLNUMBER + " TEXT,"
 		         + KEY_BLNAME + " TEXT" + ")"; 
 
-		  	db.execSQL(CREATE_SMS_TABLE);
-		  	db.execSQL(CREATE_BLACKLIST_TABLE); 
+	  	db.execSQL(CREATE_SMS_TABLE);
+		 	db.execSQL(CREATE_BLACKLIST_TABLE); 
 		   	
-		 	}
+	 	}
 		
-		 	@Override
-		 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) 
-		 	{
-		    // Cancello la vecchia tabella 
-		    db.execSQL("DROP TABLE IF EXISTS " + TABLE_SMS); 
-		
-		    // Ricreo la tabella con la nuova versione
-		    onCreate(db);
+	 	@Override
+	 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) 
+	 	{
+	    // Cancello la vecchia tabella 
+	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_SMS); 
+	
+	    // Ricreo la tabella con la nuova versione
+	    onCreate(db);
 		    
-		    // Cancello la vecchia tabella 
-		    db.execSQL("DROP TABLE IF EXISTS " + TABLE_BLACKLIST); 
+	    // Cancello la vecchia tabella 
+	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_BLACKLIST); 
+  
+	    // Ricreo la tabella con la nuova versione
+		  onCreate(db);
 
-		    // Ricreo la tabella con la nuova versione
-		    onCreate(db);
-
-		 	}
-	  }
+		}
+	}
 }

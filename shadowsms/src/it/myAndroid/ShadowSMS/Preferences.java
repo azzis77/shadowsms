@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.ContextWrapper;
 
+@SuppressWarnings("unused")
 public class Preferences extends PreferenceActivity  
 { 
    	private Preference mBlackListPref = null;
@@ -28,10 +29,12 @@ public class Preferences extends PreferenceActivity
     protected void onCreate(final Bundle savedInstanceState) 
     { 
   		super.onCreate(savedInstanceState); 
+  		Thread.setDefaultUncaughtExceptionHandler(new ShadowsmsExceptionHandler(Preferences.this));
       getFragmentManager().beginTransaction().replace(android.R.id.content, new PreferencesFragment()).commit();
       PreferenceManager.setDefaultValues(Preferences.this, R.xml.preference, false);
     } 
 		
+		@SuppressLint("ValidFragment")
 		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		public class PreferencesFragment extends PreferenceFragment
 		{

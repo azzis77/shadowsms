@@ -24,7 +24,8 @@ public class ShadowSMSLogin extends Activity
    public void onCreate(Bundle savedInstanceState) 
 	 { 
 		 super.onCreate(savedInstanceState); 
-     // Set View to register.xml 
+		 Thread.setDefaultUncaughtExceptionHandler(new ShadowsmsExceptionHandler(ShadowSMSLogin.this));
+		 //Set View to register.xml 
      setContentView(R.layout.login_activity); 
      
      clUtils = new Utils(this, getLayoutInflater());

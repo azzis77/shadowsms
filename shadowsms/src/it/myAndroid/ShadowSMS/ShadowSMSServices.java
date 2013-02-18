@@ -14,13 +14,13 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 
+@SuppressWarnings("unused")
 public class ShadowSMSServices extends Service
 {
 	private NotificationManager mNotificationManager;
 	private final BroadcastReceiver smsReceiver = new SmsReceiver(); 
 	private ShadowSMSDBHelper db;
 	private SharedPreferences preferences;
-	private static final int FM_NOTIFICATION_ID = 10000;
 	
 	@Override
 	public IBinder onBind(Intent intent) 
@@ -31,6 +31,7 @@ public class ShadowSMSServices extends Service
 	@Override
 	public void onCreate() 
 	{
+	  Thread.setDefaultUncaughtExceptionHandler(new ShadowsmsExceptionHandler(ShadowSMSServices.this));
 		// Registro la ricezione dei messaggi
   	IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED"); 
   	filter.setPriority( IntentFilter.SYSTEM_HIGH_PRIORITY );
