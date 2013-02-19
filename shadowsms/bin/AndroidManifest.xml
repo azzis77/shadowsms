@@ -46,15 +46,16 @@
             android:name=".ShadowSMSSmsDetails"
             android:label="SMS Details">
         </activity>   
-        <!--
-        <receiver android:name=".ShadowSMSBroadcastReceiver"> 
+        <receiver android:name=".ShadowSMSBroadcastReceiver"
+                  android:enabled="true"
+                  android:exported="true"
+                  android:label="StartMyServiceAtBootReceiver">> 
 		    <intent-filter> 
         		<action 
         		    android:name="android.intent.action.BOOT_COMPLETED" /> 
     		</intent-filter> 
 		</receiver>
-		   -->
-		<!--
+<!--
         <receiver 
             android:name=".SmsReceiver" 
             android:exported="true" > 
@@ -64,11 +65,10 @@
 				    android:name="android.provider.Telephony.SMS_RECEIVED" />
 	        </intent-filter> 
 		</receiver>
-		-->
+-->
 		<service 
 		    android:enabled="true" 
 		    android:name=".ShadowSMSServices" />
         </application>
-
 </manifest>
 

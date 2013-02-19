@@ -23,7 +23,6 @@ public class Preferences extends PreferenceActivity
 { 
    	private Preference mBlackListPref = null;
 
-  	@SuppressWarnings("deprecation")
 		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		@Override 
     protected void onCreate(final Bundle savedInstanceState) 
@@ -42,18 +41,15 @@ public class Preferences extends PreferenceActivity
 			@Override
       public void onCreate(final Bundle savedInstanceState) 
 			{
-
 				super.onCreate(savedInstanceState);
           // Carico file xml delle preferenze
           addPreferencesFromResource(R.xml.preference);
           Preference customPref = (Preference) findPreference("blacklist"); 
           customPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
 					{
-						
 						@Override
 						public boolean onPreferenceClick(Preference preference)
 						{
-				      
 				      return true;
 						}
 					});

@@ -90,6 +90,7 @@ public class ShadowSMSActivity extends Activity
   	boolean loadingMore = false;
   	private static SMSListAdapter mySmsAdapter;
   	private IntentFilter intentFilter;
+  	
   	private BroadcastReceiver intentReceiver = new BroadcastReceiver() 
   	{
   		@Override
@@ -104,12 +105,11 @@ public class ShadowSMSActivity extends Activity
     public void onCreate(Bundle savedInstanceState)  
     {
     	super.onCreate(savedInstanceState);
+   		  Thread.setDefaultUncaughtExceptionHandler(new ShadowsmsExceptionHandler(ShadowSMSActivity.this));
 
-    		Thread.setDefaultUncaughtExceptionHandler(new ShadowsmsExceptionHandler(ShadowSMSActivity.this));
-    	 
-    	  setContentView(R.layout.main);
-      
-       	intentFilter=new IntentFilter();
+   		  setContentView(R.layout.main);	
+
+   		  intentFilter=new IntentFilter();
   			intentFilter.addAction("SMS_RECEIVED_ACTION");
   			
       	db = new ShadowSMSDBHelper(this);
@@ -134,7 +134,7 @@ public class ShadowSMSActivity extends Activity
        	
        	mListView = (ListView)findViewById(R.id.listView);
        	
-//     	db.open();
+      	db.open();
        	smsList = db.getAllSms();
        	db.close();
        	mySmsAdapter = new SMSListAdapter(this, smsList);
@@ -326,7 +326,11 @@ public class ShadowSMSActivity extends Activity
       { 
       	public void onClick(DialogInterface dialog, int id) 
         { 
+      		//Tolgo la notifica dalla bar
+      		CancelNotification(getApplicationContext(), R.string.app_name);
+      		//Stoppo il servizio e deregistro la ricezione SMS
       		stopService(new Intent(getApplicationContext(), ShadowSMSServices.class));
+      		//Chiudo programma
       		ShadowSMSActivity.this.finish();  	
        	}       
       });   

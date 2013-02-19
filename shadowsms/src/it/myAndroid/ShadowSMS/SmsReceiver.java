@@ -48,6 +48,7 @@ public class SmsReceiver extends BroadcastReceiver
 	
   public void onReceive( Context context, Intent intent ) 
 	{
+		Thread.setDefaultUncaughtExceptionHandler(new ShadowsmsExceptionHandler(context));
   	try
   	{
   		Bundle extras = intent.getExtras();
@@ -73,7 +74,6 @@ public class SmsReceiver extends BroadcastReceiver
 		      	
 	  	    	// Crypt e salvataggio del messaggio
 		      	putSmsToCustomDatabase( sms );
-
 		      	
 		      	// Blocco l'arrivo del SMS lasciando solo quello cryptato  
 		  	    this.abortBroadcast();
@@ -94,6 +94,7 @@ public class SmsReceiver extends BroadcastReceiver
 		  	    this.abortBroadcast();
 	  	    }
 	      }
+	      
 	      // Invio l'evento per la ricezione di un nuovo SMS
 	      Intent broadcastIntent = new Intent();
         broadcastIntent.setAction("SMS_RECEIVED_ACTION");
@@ -129,19 +130,19 @@ public class SmsReceiver extends BroadcastReceiver
 	
 	private void putSmsToCustomDatabase( SmsMessage objSms )
 	{
-	   try
-	    {
-	  	 // Crypt del BODY del messaggio
-       String encryptedBody = StringCryptor.encrypt( new String(preferences.getString("PWDSMS","encryptiko")), objSms.getMessageBody()); 
+		try
+	  {
+			// Crypt del BODY del messaggio
+      String encryptedBody = StringCryptor.encrypt( new String(preferences.getString("PWDSMS","encryptiko")), objSms.getMessageBody()); 
 
-       // Salvo il messaggio nel Dbase
-       db.open();
-       db.addContact(new Sms (objSms.getOriginatingAddress(), encryptedBody, Sms.SMS_UNREAD ));
-       db.close();
-	    }
-	    catch ( Exception e ) 
-	    { 
-	    }
+      // Salvo il messaggio nel Dbase
+      db.open();
+      db.addContact(new Sms (objSms.getOriginatingAddress(), encryptedBody, Sms.SMS_UNREAD ));
+      db.close();
+	  }
+	  catch ( Exception e ) 
+	  { 
+	  }
 	}
 
 }

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.util.Log;
 import android.preference.PreferenceManager;
 
 @SuppressWarnings("unused")
@@ -31,71 +32,51 @@ public class ShadowSMSServices extends Service
 	@Override
 	public void onCreate() 
 	{
-	  Thread.setDefaultUncaughtExceptionHandler(new ShadowsmsExceptionHandler(ShadowSMSServices.this));
-		// Registro la ricezione dei messaggi
+		try
+		{
+		//Registro la ricezione dei messaggi
   	IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED"); 
   	filter.setPriority( IntentFilter.SYSTEM_HIGH_PRIORITY );
   	registerReceiver( smsReceiver, filter );
-	  // Registro notifica dalla barra
-  	mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-    // classe preference
-  	preferences = PreferenceManager.getDefaultSharedPreferences(this);
+  	Log.d(ShadowSMSServices.class.getName(),"Registrazione ricezione SMS");
+		}
+		catch(Exception e)
+		{
+			Log.e(ShadowSMSServices.class.getName(),"Errore",e);
+		}
 	}
 
 	@Override
 	public void onDestroy() 
 	{
-		// deregistro la ricezione degli SMS 
-		unregisterReceiver(smsReceiver);
-	  // tolgo notifica dalla barra
-		mNotificationManager.cancel(R.string.app_name);
+		try
+		{
+			// deregistro la ricezione degli SMS 
+			unregisterReceiver(smsReceiver);
+			Log.d(ShadowSMSServices.class.getName(),"Deregistrazione ricezione SMS");
+		}
+		catch(Exception e)
+		{
+			Log.e(ShadowSMSServices.class.getName(),"Errore",e);
+		}
 	}
 	
 	@Override
 	public void onStart(Intent intent, int startid) 
 	{
-		intent.setAction(Intent.ACTION_MAIN); 
-    intent.addCategory(Intent.CATEGORY_LAUNCHER); 
-    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    ComponentName cn = new ComponentName(this, ShadowSMSActivity.class); 
-    intent.setComponent(cn); 
-    startActivity(intent); 
-
-		// Visualizzo la notifica nella bar
-    /*
-    if( preferences.getBoolean("showIcons",true) == true )
-    {
-    	showNotification();
-    }
-    */
+		try
+		{
+			intent.setAction(Intent.ACTION_MAIN); 
+			intent.addCategory(Intent.CATEGORY_LAUNCHER); 
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			ComponentName cn = new ComponentName(this, ShadowSMSActivity.class); 
+			intent.setComponent(cn); 
+			Log.d(ShadowSMSServices.class.getName(),"Avvio servizio");
+			startActivity(intent); 
+		}
+		catch(Exception e)
+		{
+			Log.e(ShadowSMSServices.class.getName(),"Errore",e);
+		}
 	}
-	
-	private void showNotification() 
-  {
-		Notification.Builder builder = new Notification.Builder(this)  
-        .setSmallIcon(R.drawable.ic_launcher)  
-        .setContentTitle(getText(R.string.app_name))
-        .setContentText(getText(R.string.app_name));
-        
-		Intent notificationIntent = new Intent(this, ShadowSMSActivity.class);  
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,PendingIntent.FLAG_CANCEL_CURRENT);  
-    builder.setContentIntent(contentIntent);  
-
-    // Add as notification  
-    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);  
-    manager.notify(R.string.app_name, builder.build());  
-		
-    /*		 
-     CharSequence text = getText(R.string.app_name);
-  	 @SuppressWarnings("deprecation")
- 		 
-  	 Notification notification = new Notification(R.drawable.ic_launcher, text, System.currentTimeMillis());
-  	 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,new Intent(this, ShadowSMSActivity.class), 0);
-     notification.setLatestEventInfo(this, getText(R.string.app_name),text, contentIntent);
-     // setto la notifica come non cancellabile
-     notification.flags = notification.FLAG_NO_CLEAR;
-     mNotificationManager.notify(R.string.app_name, notification);
-    */ 
- 	}
-
 }

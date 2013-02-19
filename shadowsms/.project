@@ -30,4 +30,11 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>res/microlog.properties</name>
+			<type>1</type>
+			<location>C:/Users/stefazzi/workspace/LOG_Class/microlog.properties</location>
+		</link>
+	</linkedResources>
 </projectDescription>
